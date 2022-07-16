@@ -1,0 +1,8 @@
+server:
+  port: 8020
+spring:
+  application:
+    name: spring-cloud-ms-sentence
+  config:
+    import:
+    - configserver:http://localhost:8001

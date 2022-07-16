@@ -1,0 +1,10 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: spring-cloud-config-client
+  config:
+    import: configserver:http://localhost:8001
+#  profiles:
+#    active:
+#    - dev
