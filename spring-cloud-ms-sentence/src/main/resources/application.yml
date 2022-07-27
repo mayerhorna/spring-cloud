@@ -1,11 +1,24 @@
+app:
+  queue:
+    notify: 
+      name: cola_notify 
 server:
-  port: 8020
+  port: ${PORT:${SERVER_PORT:0}}
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}} 
 spring:
   application:
     name: spring-cloud-ms-sentence
   config:
     import:
     - configserver:http://localhost:8001
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest  
+
 resilience4j.circuitbreaker:
   configs:
     default:
