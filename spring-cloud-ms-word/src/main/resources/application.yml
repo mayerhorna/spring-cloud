@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: spring-cloud-ms-word
+  config: 
+    import: configserver:http://localhost:8001  
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+---
+spring:
+  profiles: pronoun
+  application:
+    name: spring-cloud-ms-pronoun
+
+---
+spring:
+  profiles: verb
+  application:
+    name: spring-cloud-ms-verb
+
+---
+spring:
+  profiles: article
+  application:
+    name: spring-cloud-ms-article
+    
+---
+spring:
+  profiles: adjective
+  application:
+    name: spring-cloud-ms-adjective
+    
+
+---
+spring:
+  profiles: noun
+  application:
+    name: spring-cloud-ms-noun   

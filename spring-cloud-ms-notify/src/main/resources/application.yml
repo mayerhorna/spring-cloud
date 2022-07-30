@@ -1,0 +1,19 @@
+app:
+  queue:
+    name: cola_notify
+spring:
+  application:
+    name: spring-cloud-ms-notify
+  config: 
+    import: configserver:http://localhost:8001
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+

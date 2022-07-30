@@ -1,0 +1,28 @@
+server:
+  port: 8090
+spring:
+  config:
+    import: configserver:http://localhost:8001
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+      routes:
+      - id: route-sentence
+        uri: lb://spring-cloud-ms-sentence
+        predicates:
+        - Path=/apisentence/**
+        filters:
+        - RewritePath=/apisentence/(?<segment>.*),/sentence/$\{segment}
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 
+            - "http://localhost:9050"
+            allowedMethods:
+            - GET
+            - POST  
+
