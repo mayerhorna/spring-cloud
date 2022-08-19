@@ -11,9 +11,15 @@ spring:
     port: 5672
     username: guest
     password: guest
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/db_ms_notify
+    username: postgres
+    password: postgres
 server:
   port: ${PORT:${SERVER_PORT:0}}
 eureka:
   instance:
     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
-
+mybatis:
+  config-location: classpath:mybatis-config.xml

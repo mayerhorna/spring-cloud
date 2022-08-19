@@ -1,0 +1,29 @@
+ <!DOCTYPE mapper
+            PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.notify.mappers.SentenceMapper">
+	<resultMap id="sentenceResultMap" type="Sentence">
+		<id property="id" column="tb_sentence_log_id" />
+		<result property="text" column="sentence_text" />
+		<result property="created" column="created" />
+	</resultMap>
+	<!-- <INSERT id="save" parameterType="Sentence"> 
+			INSERT INTO tb_sentence_log(tb_sentence_log_id, sentence_text,  created) 
+			VALUES (#{id}, #{text}, #{created}) 
+		</insert> -->
+	
+	<insert id="save" parameterType="Sentence"
+		statementType="CALLABLE">
+		{ CALL sp_save_sentence(
+			#{text,mode=IN,jdbcType=VARCHAR},
+			#{created,mode=IN,jdbcType=DATE},
+			#{id,mode=OUT,jdbcType=BIGINT}
+		)}
+	</insert>
+	<select id="getAll" resultMap="sentenceResultMap" statementType="CALLABLE"
+		parameterType="SentenceDto">
+		{ CALL sp_list_sentence(
+			#{sentences, mode=OUT,jdbcType=OTHER,javaType=ResultSet,resultMap=sentenceResultMap}
+		)}
+	</select>
+</mapper>
