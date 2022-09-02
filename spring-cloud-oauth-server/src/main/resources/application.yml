@@ -1,0 +1,12 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: spring-cloud-oauthserver
+  config:
+    import:
+    - configserver:http://localhost:8001
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+
