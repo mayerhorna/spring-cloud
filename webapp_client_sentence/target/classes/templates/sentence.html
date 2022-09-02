@@ -48,21 +48,15 @@
 		  type: "GET",
 		  url: apiSenteceURL + "/get",
 		  success: displaySentence,
-		  crossDomain: true,
-   		  //dataType: 'jsonp',
 		  failure: displayErrorSentence,
-		  dataType: "json",
-		   headers: {
-				    "Authorization": 'Bearer ' + access_token
-				  }
+		  dataType: "json" 
 		});	
 	});
 	
 	$(document).ready(function() {
-		debugger;
 	   const authorizeUrl = "http://auth-server:9000/oauth2/authorize";
 	   const tokenUrl = "http://auth-server:9000/oauth2/token";
-	   const redirectUrl = "http://auth-client:9050/authorizationCodeFromSysSentence"; 
+	   const redirectUrl = "http://127.0.0.1:9050/authorizationCodeFromSysSentence"; 
 	   const clientId = "sentencewebmobile";
 	   const scope = "openid";
 	   const responseType = "code";
@@ -79,19 +73,10 @@
 			  url: tokenUrl,
 			  data: authParams,
 			  success: function(data){
-				debugger;
 				 access_token = data.access_token; 
-				 $.ajaxSetup({
-				  type: "POST",
-				   headers: {
-				    "Authorization": 'Bearer ' + access_token
-				  }
-				 });
-				 $.ajax({
-				  headers: {
-				    "Authorization": 'Bearer ' + access_token
-				  }
-				});
+				 $.ajaxSettings.headers = {
+						 "Authorization": 'Bearer ' + access_token 
+				 };
 			  },
 			  dataType: "json"
 			});
