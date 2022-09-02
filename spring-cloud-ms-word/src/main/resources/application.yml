@@ -4,7 +4,7 @@ spring:
   config: 
     import: configserver:http://localhost:8001  
 server:
-  port: ${PORT:${SERVER_PORT:0}}
+  port: 7001
 
 eureka:
   instance:

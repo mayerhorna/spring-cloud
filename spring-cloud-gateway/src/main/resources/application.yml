@@ -1,6 +1,9 @@
 server:
   port: 8090
 spring:
+  #main:
+    #allow-bean-definition-overriding: true  
+    #web-application-type: reactive
   config:
     import: configserver:http://localhost:8001
   application:
@@ -20,9 +23,12 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: 
-            - "http://localhost:9050"
+            allowedOrigins: "*"
             allowedMethods:
             - GET
             - POST  
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000

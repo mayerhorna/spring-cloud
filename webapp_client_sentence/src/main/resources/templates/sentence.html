@@ -21,15 +21,20 @@
       	</div>
 
     </div>
-
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	    var authorizationCode = /*[[${authorizationCode}]]*/ 'default';
+	    console.log(authorizationCode);
+	/*]]>*/
+</script>
 <script type="text/javascript">
+	var access_token = "";
 	function displaySentence(results) {
 		$("#sentence").html(results.text);
 	}
 	
 	//	Handle Errors:	
 	function displayErrorSentence(xhr, status, msg) {
-		debugger;
 		var text = xhr.responseText;
 		var emsg = "<p><b>AJAX Falló obteniendo oracion: " + xhr.statusText + " " + msg + "</b><br/></p>";
 		$("#error").append(emsg);
@@ -37,8 +42,68 @@
 	}
 	
 	$("#btnSentence").click(function(){
-		const prefix = "http://localhost:8090/apisentence";
-		$.getJSON(prefix + "/get",   null, displaySentence)  .fail(displayErrorSentence);	
+		debugger;
+		const apiSenteceURL = "http://127.0.0.1:8090/apisentence";
+		$.ajax({
+		  type: "GET",
+		  url: apiSenteceURL + "/get",
+		  success: displaySentence,
+		  crossDomain: true,
+   		  //dataType: 'jsonp',
+		  failure: displayErrorSentence,
+		  dataType: "json",
+		   headers: {
+				    "Authorization": 'Bearer ' + access_token
+				  }
+		});	
+	});
+	
+	$(document).ready(function() {
+		debugger;
+	   const authorizeUrl = "http://auth-server:9000/oauth2/authorize";
+	   const tokenUrl = "http://auth-server:9000/oauth2/token";
+	   const redirectUrl = "http://auth-client:9050/authorizationCodeFromSysSentence"; 
+	   const clientId = "sentencewebmobile";
+	   const scope = "openid";
+	   const responseType = "code";
+	   if(authorizationCode){
+		   var authParams = { 
+		   grant_type: "authorization_code", 
+			code: authorizationCode, 
+			client_id: clientId, 
+			client_secret: "4321",  
+			redirect_uri: redirectUrl 
+		   };
+		   $.ajax({
+			  type: "POST",
+			  url: tokenUrl,
+			  data: authParams,
+			  success: function(data){
+				debugger;
+				 access_token = data.access_token; 
+				 $.ajaxSetup({
+				  type: "POST",
+				   headers: {
+				    "Authorization": 'Bearer ' + access_token
+				  }
+				 });
+				 $.ajax({
+				  headers: {
+				    "Authorization": 'Bearer ' + access_token
+				  }
+				});
+			  },
+			  dataType: "json"
+			});
+	   }else{
+		   var params = { client_id: clientId, scope: scope, redirect_uri: redirectUrl,  response_type: responseType,  response_mode: "query" };
+		   var paramsAsUrl = jQuery.param( params );
+		   var authorizeUrlFinal = authorizeUrl + "?" + paramsAsUrl;
+		   document.location = authorizeUrlFinal; 
+	   } 
+	   
+	   console.log("URL: " + authorizeUrlFinal);
+	   
 	});
 </script>
 
