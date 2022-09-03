@@ -90,9 +90,9 @@ public class AuthorizationServerConfiguration {
 	        .clientSecret("{noop}4321")
 	        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
 	        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-	        //.redirectUri("https://oidcdebugger.com/debug")
-	        .redirectUri("http://127.0.0.1:4200")
-	        .redirectUri("http://auth-client:9050/authorizationCodeFromSysSentence")
+	        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN )
+	        .redirectUri("https://oidcdebugger.com/debug")
+	        .redirectUri("http://127.0.0.1:9050/authorizationCodeFromSysSentence")
 	        .scope(OidcScopes.OPENID)
 	        .build();
 	    return new InMemoryRegisteredClientRepository(registeredClient);

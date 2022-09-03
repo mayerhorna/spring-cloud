@@ -1,3 +1,5 @@
+-- crear base de datos:  db_ms_notify
+
 DROP sequence IF EXISTS seq_tb_sentence_log;
 CREATE sequence seq_tb_sentence_log INCREMENT 1 START 1; 
 

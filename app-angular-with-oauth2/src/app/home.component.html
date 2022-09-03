@@ -1,9 +1,0 @@
-<div class="container" >
-    <button *ngIf="!isLoggedIn" class="btn btn-primary" (click)="login()" type="submit">Login</button>
-    <div *ngIf="isLoggedIn" class="content">
-        <span>Bienvenido !!</span>
-        <a class="btn btn-default pull-right"(click)="logout()" href="#">Cerrar Sesión</a>
-        <br/>
-        <sentence-details></sentence-details>
-    </div>
-</div>
